@@ -9,6 +9,7 @@ function isAllowedOrigin(origin: string | null): boolean {
   if (!origin) return false;
   if (ALLOWED_ORIGINS.includes(origin)) return true;
   if (origin.endsWith(".vercel.app")) return true;
+  if (origin.endsWith(".netlify.app")) return true;
   return false;
 }
 

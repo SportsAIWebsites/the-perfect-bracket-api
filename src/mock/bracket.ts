@@ -379,8 +379,8 @@ function buildSouth(): BracketRegion {
     matchup("South", "E8", 0, team("South", 1), team("South", 2), {
       status: "tbd",
       prediction: {
-        winnerId: "57", confidence: 63,
-        reasoning: "Florida's offensive balance and home-region advantage push them past Houston's elite defense. A classic 1 vs 2 seed battle that could go either way.",
+        winnerId: "248", confidence: 58,
+        reasoning: "Houston is playing on their home court in Houston. The home-court advantage in a virtual home game is massive — Houston's defense and crowd energy give them the edge over Florida.",
       },
     }),
   ];
@@ -493,8 +493,8 @@ function buildMidwest(): BracketRegion {
     matchup("Midwest", "E8", 0, team("Midwest", 1), team("Midwest", 2), {
       status: "tbd",
       prediction: {
-        winnerId: "130", confidence: 67,
-        reasoning: "Michigan's complete roster and dominant regular season make them the pick. Iowa State is dangerous but Michigan's depth and coaching edge carry them to the Final Four.",
+        winnerId: "66", confidence: 55,
+        reasoning: "Michigan's 6th man LJ Caison is injured, significantly hurting their bench production. Iowa State's depth and defensive intensity exploit Michigan's lack of bench scoring.",
       },
     }),
   ];
@@ -552,7 +552,7 @@ function buildDemoBracket(): FullBracket {
     }
   }
 
-  // E8 picks: region 1-seeds favored
+  // E8 picks: propagate S16 winners into E8 matchups, but preserve manual predictions
   for (const region of REGIONS) {
     const r = regions[region];
     const s16_0_winner = r.rounds.S16[0].prediction
@@ -565,17 +565,20 @@ function buildDemoBracket(): FullBracket {
     if (s16_0_winner && s16_1_winner) {
       r.rounds.E8[0].topTeam = s16_0_winner;
       r.rounds.E8[0].bottomTeam = s16_1_winner;
-      const fav = s16_0_winner.seed < s16_1_winner.seed ? s16_0_winner : s16_1_winner;
-      r.rounds.E8[0].prediction = {
-        winnerId: fav.teamId,
-        confidence: 57,
-        reasoning: `${fav.name} has the complete package to win their region. Elite on both ends of the floor.`,
-        generatedAt: new Date().toISOString(),
-      };
+      // Only auto-generate prediction if one wasn't manually set in the region builder
+      if (!r.rounds.E8[0].prediction) {
+        const fav = s16_0_winner.seed < s16_1_winner.seed ? s16_0_winner : s16_1_winner;
+        r.rounds.E8[0].prediction = {
+          winnerId: fav.teamId,
+          confidence: 57,
+          reasoning: `${fav.name} has the complete package to win their region. Elite on both ends of the floor.`,
+          generatedAt: new Date().toISOString(),
+        };
+      }
     }
   }
 
-  // Final Four: East (Duke) vs West (Arizona), South (Florida) vs Midwest (Michigan)
+  // Final Four: East (Duke) vs West (Arizona), South (Houston) vs Midwest (Iowa State)
   const semi1: BracketMatchup = {
     id: "f4-0",
     region: "East",
@@ -585,9 +588,9 @@ function buildDemoBracket(): FullBracket {
     bottomTeam: team("West", 1), // Arizona
     status: "tbd",
     prediction: {
-      winnerId: "150", // Duke
-      confidence: 54,
-      reasoning: "Two 33-2 juggernauts collide. Duke's guard play and Coach K's tournament DNA give them the narrowest of edges over Arizona's balanced attack.",
+      winnerId: "12", // Arizona
+      confidence: 56,
+      reasoning: "Arizona's size and versatility overwhelm Duke. Caleb Love and the Wildcats prove too much in the Final Four — their frontcourt dominance controls the paint.",
       generatedAt: new Date().toISOString(),
     },
   };
@@ -597,29 +600,29 @@ function buildDemoBracket(): FullBracket {
     region: "South",
     round: "F4",
     position: 1,
-    topTeam: team("South", 1), // Florida
-    bottomTeam: team("Midwest", 1), // Michigan
+    topTeam: team("South", 2), // Houston
+    bottomTeam: team("Midwest", 2), // Iowa State
     status: "tbd",
     prediction: {
-      winnerId: "130", // Michigan
-      confidence: 56,
-      reasoning: "Michigan's 32-3 record and offensive firepower (101 points in R64) make them the pick. Florida's defensive intensity keeps it close, but the Wolverines have more weapons.",
+      winnerId: "248", // Houston
+      confidence: 57,
+      reasoning: "Houston's elite defense stifles Iowa State's offense in a low-scoring grind. Playing near home, the Cougars feed off the crowd energy to reach the title game.",
       generatedAt: new Date().toISOString(),
     },
   };
 
   const championship: BracketMatchup = {
     id: "championship",
-    region: "East",
+    region: "West",
     round: "CHAMPIONSHIP",
     position: 0,
-    topTeam: team("East", 1), // Duke
-    bottomTeam: team("Midwest", 1), // Michigan
+    topTeam: team("West", 1), // Arizona
+    bottomTeam: team("South", 2), // Houston
     status: "tbd",
     prediction: {
-      winnerId: "150", // Duke
-      confidence: 52,
-      reasoning: "In the ultimate showdown, Duke's 33-2 Blue Devils edge Michigan's 32-3 Wolverines. Two elite programs, but Duke's defensive versatility and clutch shooting make the difference in a classic title game.",
+      winnerId: "12", // Arizona
+      confidence: 54,
+      reasoning: "Arizona's balanced scoring and tournament experience carry them to the national championship. Their frontcourt dominance proves the difference against Houston's gritty defense in a tight title game.",
       generatedAt: new Date().toISOString(),
     },
   };

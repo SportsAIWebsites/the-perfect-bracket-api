@@ -12,10 +12,6 @@ function applyContextualOverrides(bracket: FullBracket): FullBracket {
       winnerId: "248", confidence: 58,
       reasoning: "Houston is playing on their home court in Houston. The home-court advantage in a virtual home game is massive — Houston's defense and crowd energy give them the edge over Florida.",
     },
-    "midwest-e8-0": {
-      winnerId: "66", confidence: 55,
-      reasoning: "Michigan's 6th man LJ Caison is injured, significantly hurting their bench production. Iowa State's depth and defensive intensity exploit Michigan's lack of bench scoring.",
-    },
   };
 
   // Apply regional E8 overrides
@@ -48,7 +44,7 @@ function applyContextualOverrides(bracket: FullBracket): FullBracket {
   }
 
   const houston = findTeam("248");
-  const iowaState = findTeam("66");
+  const michigan = findTeam("130");
   const arizona = findTeam("12");
   const duke = findTeam("150");
 
@@ -63,13 +59,13 @@ function applyContextualOverrides(bracket: FullBracket): FullBracket {
     };
   }
 
-  // Override Final Four — Semi 2: Houston vs Iowa State
+  // Override Final Four — Semi 2: Houston vs Michigan
   if (bracket.finalFour.semifinals[1]) {
     bracket.finalFour.semifinals[1].topTeam = houston;
-    bracket.finalFour.semifinals[1].bottomTeam = iowaState;
+    bracket.finalFour.semifinals[1].bottomTeam = michigan;
     bracket.finalFour.semifinals[1].prediction = {
       winnerId: "248", confidence: 57,
-      reasoning: "Houston's elite defense stifles Iowa State's offense in a low-scoring grind. Playing near home, the Cougars feed off the crowd energy.",
+      reasoning: "Houston's elite defense suffocates Michigan's offense in a grind-it-out semifinal. Playing near home, the Cougars' crowd energy and defensive intensity prove too much for the Wolverines.",
       generatedAt: new Date().toISOString(),
     };
   }

@@ -493,8 +493,8 @@ function buildMidwest(): BracketRegion {
     matchup("Midwest", "E8", 0, team("Midwest", 1), team("Midwest", 2), {
       status: "tbd",
       prediction: {
-        winnerId: "66", confidence: 55,
-        reasoning: "Michigan's 6th man LJ Caison is injured, significantly hurting their bench production. Iowa State's depth and defensive intensity exploit Michigan's lack of bench scoring.",
+        winnerId: "130", confidence: 60,
+        reasoning: "Michigan's 32-3 record and dominant offense carry them past Iowa State. Despite the LJ Caison injury, Michigan's starting five is too talented to be denied a Final Four berth.",
       },
     }),
   ];
@@ -601,12 +601,12 @@ function buildDemoBracket(): FullBracket {
     round: "F4",
     position: 1,
     topTeam: team("South", 2), // Houston
-    bottomTeam: team("Midwest", 2), // Iowa State
+    bottomTeam: team("Midwest", 1), // Michigan
     status: "tbd",
     prediction: {
       winnerId: "248", // Houston
       confidence: 57,
-      reasoning: "Houston's elite defense stifles Iowa State's offense in a low-scoring grind. Playing near home, the Cougars feed off the crowd energy to reach the title game.",
+      reasoning: "Houston's elite defense suffocates Michigan's offense in a grind-it-out semifinal. Playing near home in Houston, the Cougars' crowd energy and defensive intensity prove too much for the Wolverines.",
       generatedAt: new Date().toISOString(),
     },
   };

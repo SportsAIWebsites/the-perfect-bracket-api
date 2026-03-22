@@ -33,15 +33,40 @@ function applyContextualOverrides(bracket: FullBracket): FullBracket {
     }
   }
 
-  // Override Final Four
+  // Re-propagate F4 teams from overridden E8 winners
+  // Helper to find a team by ID across all regions
+  function findTeam(teamId: string) {
+    for (const region of Object.values(bracket.regions)) {
+      for (const matchups of Object.values(region.rounds)) {
+        for (const m of matchups) {
+          if (m.topTeam?.teamId === teamId) return m.topTeam;
+          if (m.bottomTeam?.teamId === teamId) return m.bottomTeam;
+        }
+      }
+    }
+    return null;
+  }
+
+  const houston = findTeam("248");
+  const iowaState = findTeam("66");
+  const arizona = findTeam("12");
+  const duke = findTeam("150");
+
+  // Override Final Four — Semi 1: Duke vs Arizona
   if (bracket.finalFour.semifinals[0]) {
+    bracket.finalFour.semifinals[0].topTeam = duke;
+    bracket.finalFour.semifinals[0].bottomTeam = arizona;
     bracket.finalFour.semifinals[0].prediction = {
       winnerId: "12", confidence: 56,
       reasoning: "Arizona's size and versatility overwhelm Duke. Caleb Love and the Wildcats prove too much in the Final Four.",
       generatedAt: new Date().toISOString(),
     };
   }
+
+  // Override Final Four — Semi 2: Houston vs Iowa State
   if (bracket.finalFour.semifinals[1]) {
+    bracket.finalFour.semifinals[1].topTeam = houston;
+    bracket.finalFour.semifinals[1].bottomTeam = iowaState;
     bracket.finalFour.semifinals[1].prediction = {
       winnerId: "248", confidence: 57,
       reasoning: "Houston's elite defense stifles Iowa State's offense in a low-scoring grind. Playing near home, the Cougars feed off the crowd energy.",
@@ -49,7 +74,9 @@ function applyContextualOverrides(bracket: FullBracket): FullBracket {
     };
   }
 
-  // Override Championship — Arizona wins it all
+  // Override Championship — Arizona vs Houston, Arizona wins
+  bracket.finalFour.championship.topTeam = arizona;
+  bracket.finalFour.championship.bottomTeam = houston;
   bracket.finalFour.championship.prediction = {
     winnerId: "12", confidence: 54,
     reasoning: "Arizona's balanced scoring and tournament experience carry them to the national championship. Their frontcourt dominance proves the difference against Houston's gritty defense.",
